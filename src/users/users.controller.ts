@@ -1,16 +1,26 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
     @Get()
-    getUsers() {}
+    getUsers(@Req() req) {
+        return req.user;
+    }
 
     @Post()
-    postUsers() {}
+    postUsers(@Body() data: JoinRequestDto) {
+        
+    }
 
     @Post('login')
-    logInb() {}
+    logIn(@Req() req) {
+        return req.user;
+    }
 
     @Post('logout')
-    logOut() {}
+    logOut(@Req() req, @Res() res) {
+        req.logOut();
+        res.clearCookie('connect.sid', { httpOnly: true });
+        res.send('ok');
+    }
 }
