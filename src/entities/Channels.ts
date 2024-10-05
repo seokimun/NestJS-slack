@@ -10,7 +10,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { ChannelChats } from './Channelchat';
+import { ChannelChats } from './ChannelChats';
 import { ChannelMembers } from './ChannelMembers';
 import { Users } from './Users';
 import { Workspaces } from './Workspaces';

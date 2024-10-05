@@ -67,5 +67,5 @@ export class Workspaces {
     Owner: Users;
 
     @ManyToMany(() => Users, (users) => users.Workspaces)
-    Members: Users[];   
+    Members: Users[];
 }
