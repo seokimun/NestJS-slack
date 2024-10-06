@@ -17,6 +17,7 @@ import { DMs } from './DMs';
 import { Mentions } from './Mentions';
 import { WorkspaceMembers } from './WorkspaceMembers';
 import { Workspaces } from './Workspaces';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'slack', name: 'users' })
@@ -24,12 +25,24 @@ export class Users {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
     id: number;
 
+    @ApiProperty({
+        example: 'seokimun@gmail.com',
+        description: '이메일',
+    })
     @Column('varchar', { name: 'email', unique: true, length: 30 })
     email: string;
 
+    @ApiProperty({
+        example: 'seokimun',
+        description: '닉네임',
+    })
     @Column('varchar', { name: 'nickname', length: 30 })
     nickname: string;
 
+    @ApiProperty({
+        example: '1234',
+        description: '비밀번호',
+    })
     @Column('varchar', { name: 'password', length: 100, select: false })
     password: string;
 
