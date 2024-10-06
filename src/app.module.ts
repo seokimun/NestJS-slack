@@ -8,14 +8,8 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
 import { ChannelsModule } from './channels/channels.module';
 import { DmsModule } from './dms/dms.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChannelChats } from './entities/ChannelChats';
-import { ChannelMembers } from './entities/ChannelMembers';
-import { Channels } from './entities/Channels';
-import { DMs } from './entities/DMs';
-import { Mentions } from './entities/Mentions';
-import { Users } from './entities/Users';
-import { WorkspaceMembers } from './entities/WorkspaceMembers';
-import { Workspaces } from './entities/Workspaces';
+import { SeederOptions } from 'typeorm-extension';
+import { DataSourceOptions } from 'typeorm';
 
 @Module({
     imports: [
@@ -31,22 +25,14 @@ import { Workspaces } from './entities/Workspaces';
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
-            autoLoadEntities: true,
-            entities: [
-                ChannelChats,
-                ChannelMembers,
-                Channels,
-                DMs,
-                Mentions,
-                Users,
-                WorkspaceMembers,
-                Workspaces,
-            ],
             keepConnectionAlive: true,
-            migrations: [__dirname + '/migrations/*.ts'],
+            entities: [__dirname + '/src/entities/**/*{.ts,.js}'],
+            migrations: [__dirname + '/src/migrations/**/*{.ts,.js}'],
+            seeders: [__dirname + '/src/database/seeds/**/*{.ts,.js}'],
+            charset: 'utf8mb4_general_ci',
             synchronize: false,
             logging: true,
-        }),
+        } as SeederOptions & DataSourceOptions),
     ],
     controllers: [AppController],
     providers: [AppService, ConfigService],
