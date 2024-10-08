@@ -3,18 +3,26 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { UserModule } from './users/user.module';
+import { UsersModule } from './users/users.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { ChannelsModule } from './channels/channels.module';
 import { DmsModule } from './dms/dms.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeederOptions } from 'typeorm-extension';
 import { DataSourceOptions } from 'typeorm';
+import { Users } from './entities/Users';
+import { Workspaces } from './entities/Workspaces';
+import { WorkspaceMembers } from './entities/WorkspaceMembers';
+import { ChannelMembers } from './entities/ChannelMembers';
+import { ChannelChats } from './entities/ChannelChats';
+import { Channels } from './entities/Channels';
+import { DMs } from './entities/DMs';
+import { Mentions } from './entities/Mentions';
 
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        UserModule,
+        UsersModule,
         WorkspacesModule,
         ChannelsModule,
         DmsModule,
@@ -26,7 +34,16 @@ import { DataSourceOptions } from 'typeorm';
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
             keepConnectionAlive: true,
-            entities: [__dirname + '/src/entities/**/*{.ts,.js}'],
+            entities: [
+                ChannelChats,
+                ChannelMembers,
+                Channels,
+                DMs,
+                Mentions,
+                Users,
+                WorkspaceMembers,
+                Workspaces,
+            ],
             migrations: [__dirname + '/src/migrations/**/*{.ts,.js}'],
             seeders: [__dirname + '/src/database/seeds/**/*{.ts,.js}'],
             charset: 'utf8mb4_general_ci',
