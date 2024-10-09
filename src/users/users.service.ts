@@ -1,6 +1,5 @@
 import {
     BadRequestException,
-    HttpException,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
@@ -18,16 +17,6 @@ export class UsersService {
     getUser() {}
 
     async postUsers(email: string, nickname: string, password: string) {
-        if (!email) {
-            throw new BadRequestException('이메일이 없습니다');
-        }
-        if (!nickname) {
-            throw new BadRequestException('닉네임이 없습니다');
-        }
-        if (!password) {
-            throw new BadRequestException('비밀번호가 없습니다');
-        }
-
         const user = await this.userRepository.findOne({ where: { email } });
         if (user) {
             throw new UnauthorizedException('이미 존재하는 사용자입니다');
