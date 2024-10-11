@@ -3,12 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../entities/Users';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { WorkspaceMembers } from '../entities/WorkspaceMembers';
+import { ChannelMembers } from '../entities/ChannelMembers';
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(Users)
         private readonly userRepository: Repository<Users>,
+        @InjectRepository(WorkspaceMembers)
+        private readonly workspaceMembersRepository: Repository<WorkspaceMembers>,
+        @InjectRepository(ChannelMembers)
+        private readonly channelMembersRepository: Repository<ChannelMembers>,
     ) {}
     getUser() {}
 
@@ -19,10 +25,19 @@ export class UsersService {
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
-        await this.userRepository.save({
+        const result = await this.userRepository.save({
             email,
             nickname,
             password: hashedPassword,
         });
+        await this.workspaceMembersRepository.save({
+            UserId: result.id,
+            WorkspaceId: 1,
+        });
+        await this.channelMembersRepository.save({
+            UserId: result.id,
+            ChannelId: 1,
+        });
+        return true;
     }
 }
