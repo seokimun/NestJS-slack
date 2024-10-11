@@ -27,6 +27,7 @@ export class Users {
     id: number;
 
     @IsEmail()
+    @IsNotEmpty()
     @ApiProperty({
         example: 'seokimun@gmail.com',
         description: '이메일',
@@ -49,7 +50,7 @@ export class Users {
         example: '1234',
         description: '비밀번호',
     })
-    @Column('varchar', { name: 'password', length: 100, select: false })
+    @Column('varchar', { name: 'password', length: 100, select: false }) //비밀번호를 제외하고 내보낸다
     password: string;
 
     @CreateDateColumn()

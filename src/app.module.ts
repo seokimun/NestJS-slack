@@ -18,6 +18,7 @@ import { ChannelChats } from './entities/ChannelChats';
 import { Channels } from './entities/Channels';
 import { DMs } from './entities/DMs';
 import { Mentions } from './entities/Mentions';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { Mentions } from './entities/Mentions';
         WorkspacesModule,
         ChannelsModule,
         DmsModule,
+        AuthModule,
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: '127.0.0.1',
